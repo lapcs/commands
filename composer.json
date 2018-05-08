@@ -1,0 +1,16 @@
+{
+    "name": "lapcs/commands",
+    "description": "A packagist command hmvc laravel/lumen",
+    "type": "command",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lavacs",
+            "email": "mrtan1511@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        
+    }
+}

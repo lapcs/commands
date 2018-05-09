@@ -20,21 +20,28 @@ composer require lapcs/commands
 
 ## Lumen config
 ``` bash
- bootstrap\app.php
+ //bootstrap\app.php
  Add : $app->register(Lapcs\Commands\CommandServiceProvider::class);
 ```
 
 ## Laravel config
 ``` bash
-  config\app.php
+  //config\app.php
  'providers' => [
 	...
 	Lapcs\Commands\CommandServiceProvider::class,
  ]
 ```
 
-``` bash
-composer require lapcs/commands
+## Setup HMVC
+``` Create HMVC module
+	// create folder default to app\Modules
+	php artisan ans:setup 
+```
+
+## Command helper
+``` Create HMVC module
+	php artisan ans:help 
 ```
 
 The package will automatically register a service provider and alias.

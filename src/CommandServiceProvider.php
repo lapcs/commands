@@ -33,6 +33,9 @@ class CommandServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/lapcs-command.php', 'lapcs-command'
+        );
         $this->commands($this->commands);
         $this->app->bind('lapcs-commands', function() {
             return new Command;

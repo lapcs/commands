@@ -3,6 +3,10 @@
     "description": "A command hmvc laravel and lumen",
     "type": "n",
     "license": "MIT",
+    "homepage": "http://photv.net",
+    "support": {
+        "issues": "https://github.com/lapcs/commands",
+    },
     "authors": [
         {
             "name": "lavacs",
@@ -22,5 +26,7 @@
         "branch-alias": {
             "dev-master": "1.23-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

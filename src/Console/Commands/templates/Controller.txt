@@ -1,0 +1,109 @@
+<?php 
+namespace {{NAMESPACE}}\{{MODULE}}\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use Carbon\Carbon;
+use File;
+class {{NAME}}Controller extends Controller
+{
+	/**
+     * Show the application index.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return \Illuminate\Http\Response
+     */
+	public function index(Request $request)
+	{
+		$data['title'] = '{{MODULE}}';
+		return view('{{MODULE}}::{{NAMEFOLDER}}.index',$data);
+	}
+
+	/**
+     * Show the from create.
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function create(Request $request) 
+    {
+    	if($request->ajax()) 
+    	{
+    		//return request ajax
+    	}
+    	// return http request
+    }
+
+    /**
+     * Show the store.
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function store(Request $request) 
+    {
+        if($request->ajax()) 
+        {
+            //return request ajax
+        }
+        // return http request
+    }
+
+    /**
+     * Show the application edit.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function edit(Request $request,$id) 
+    {
+        if($request->ajax()) 
+        {
+            //return request ajax
+        }
+        // return http request
+    }
+
+    /**
+     * Show the application update.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function update(Request $request,$id) 
+    {
+        if($request->ajax()) 
+        {
+            //return request ajax
+        }
+        // return http request
+    }
+
+    /**
+     * delete by id.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function delete(Request $request,$id) 
+    {
+        if($request->ajax()) 
+        {
+            //return request ajax
+        }
+        // return http request
+    }
+
+    /**
+     * delete multi.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+    public function deleteMulti(Request $request) 
+    {
+        if($request->ajax()) 
+        {
+            //return request ajax
+        }
+        // return http request
+    }
+}

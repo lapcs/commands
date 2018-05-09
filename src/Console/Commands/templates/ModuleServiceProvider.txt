@@ -1,0 +1,47 @@
+<?php 
+namespace {{NAMESPACE}};
+use File;
+use Cache;
+class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
+{
+	/**
+     * Bootstrap any application services.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	public function boot(){
+		$this->modules();
+	}
+
+	/**
+     * Register any application services.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	public function register(){}
+
+	/**
+     * make module
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	private function modules()
+	{
+		$listModule = array_map('basename', File::directories(__DIR__));
+		foreach ($listModule as $module) 
+		{
+			if(file_exists(__DIR__.'/'.$module.'/routes.php')) 
+			{
+				include __DIR__.'/'.$module.'/routes.php';
+			}
+			if(is_dir(__DIR__.'/'.$module.'/Views'))
+			{
+				$this->loadViewsFrom(__DIR__.'/'.$module.'/Views', $module);
+			}
+		}
+	}
+	
+}

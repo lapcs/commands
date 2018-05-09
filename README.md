@@ -92,4 +92,4 @@ lapcs command is a freelance web developer specialising on the Laravel/lumen fra
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

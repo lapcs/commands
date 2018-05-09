@@ -18,6 +18,25 @@ To install through Composer, by run the following command:
 composer require lapcs/commands
 ```
 
+## Lumen config
+``` bash
+ bootstrap\app.php
+ Add : $app->register(Lapcs\Commands\CommandServiceProvider::class);
+```
+
+## Laravel config
+``` bash
+  config\app.php
+ 'providers' => [
+	...
+	Lapcs\Commands\CommandServiceProvider::class,
+ ]
+```
+
+``` bash
+composer require lapcs/commands
+```
+
 The package will automatically register a service provider and alias.
 
 Optionally, publish the package's configuration file by running:

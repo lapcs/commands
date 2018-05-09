@@ -15,5 +15,7 @@
             "Lapcs\\Commands\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "php": "^7.0.2"
+    }
 }

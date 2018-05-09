@@ -57,8 +57,9 @@ Optionally, publish the package's configuration file by running:
 ## Documentation
 
 You'll find installation instructions and full documentation on : comming son....
-
-## Credits
+ 
+ 
+## Credits ....
 
 
 ## About lapcs command

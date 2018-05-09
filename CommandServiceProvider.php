@@ -23,6 +23,7 @@ class CommandServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        
         //
     }
 }

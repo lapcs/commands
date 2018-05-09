@@ -35,8 +35,31 @@ composer require lapcs/commands
 
 ## Setup HMVC
 ``` Create HMVC module
-	// create folder default to app\Modules
+	// Create folder Modules default to app\Modules
 	php artisan ans:setup 
+
+	// Add ModuleServiceProvider to config
+	// Laravel : config\app.php
+	'providers' => [
+		...
+		App\Modules\ModuleServiceProvider::class,
+	 ]
+
+	// Lumen : bootstrap\app.php
+	Add : $app->register(App\Modules\ModuleServiceProvider::class);
+
+	// Make module : Ex Master
+	php artisan ans:module master
+
+	// Make ExController in module Master 
+	php artisan ans:controller master Ex OR php artisan ans:controller master ExController
+
+	// Make Request  
+	php artisan ans:request master MasterRequest
+
+	... to help command
+	php artisan ans:help
+
 ```
 
 ## Command helper

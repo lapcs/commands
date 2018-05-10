@@ -1,7 +1,7 @@
 {
     "name": "lapcs/commands",
     "description": "A command hmvc laravel and lumen",
-    "type": "laravel | lumen | HMVC | Laravel Module | lumen Module",
+    "type": "laravel,lumen,HMVC,Laravel Module,lumen Module",
     "license": "MIT",
     "homepage": "http://photv.net",
     "support": {

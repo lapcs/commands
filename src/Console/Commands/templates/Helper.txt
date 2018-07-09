@@ -17,7 +17,7 @@
  */
 namespace {{NAMESPACE}};
 use Carbon\Carbon;
-use File;
+use Illuminate\Support\Facades\File;
 class {{NAME}}
 {
 

@@ -11,7 +11,7 @@ class MakeModule extends Ans
      * @author tannq@ans-asia.com
      * @var string
      */
-    protected $signature = 'ans:module {name} {--auth=mail@gmail.com} {--path=App\Modules} {--permissions=0644} {--namespace=App\Modules}';
+    protected $signature = 'ans:module {name} {--auth=mail@gmail.com}';
 
     /**
      * The console command description.
@@ -33,73 +33,66 @@ class MakeModule extends Ans
      */
     public function handle()
     {
-        $arguments = $this->arguments();
-        $path = $this->option('path');
-        $auth = $this->option('auth');
-        $permissions = $this->option('permissions');
-        $namespace = $this->option('namespace');
+        $arguments   = $this->arguments();
+        $module_path = $this->module_path;
+        $auth        = $this->option('auth');
+        $permissions = $this->permissions;
+        $module_alias   = $this->module_alias;
 
         // convert first character to uppercase
-        $module = ucwords($arguments['name']);
-        $path =  ucwords($path);
-        $namespace =  ucwords($namespace);
-        if(!$this->file->exists(base_path($path))) 
+        $module      = ucwords($arguments['name']);
+        // $module_path = ucwords($module_path);
+        $module_alias   = ucwords($module_alias);
+        if(!$this->file->exists(base_path($module_path))) 
         {
-            $this->error("> Error: Directory [{$path}] don't exists!");
+            $this->error("> Error: Directory [{$module_path}] don't exists!");
             $this->error("Please run: php artisan ans:setup");
             return ;
         }
         $this->line('1. Make default directory');
         $this->createDirectoryIfNotExists([
-                    "{$path}/{$module}",
-                   // "{$path}/Layouts",
-                   // "{$path}/Layouts/Views",
-                    "{$path}/{$module}/Controllers",
-                    "{$path}/{$module}/Views",
+                    "{$module_path}/{$module}",
+                   // "{$module_path}/Layouts",
+                   // "{$module_path}/Layouts/Views",
+                    "{$module_path}/{$module}/Controllers",
+                    "{$module_path}/{$module}/Views",
                 ],$permissions) ;
 
-        // create master layout
-        // $master = base_path("{$path}/Layouts/Views/master.blade.php");
-        // $masterTemplate = $this->getTemplate(
-        //     "master",
-        //     ["{{MODULE}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-        //     ["{$module}","{$namespace}","{$this->date}",$auth]
-        // );
-        // $this->createFile($master,$masterTemplate,false);
-        
-
         // create controller
-        $this->line("");
-        $moduleController = base_path("{$path}/{$module}/Controllers/{$module}Controller.php");
+        $this->line("\n______________________________^^_______________________________\n");
+        $moduleController = base_path("{$module_path}/{$module}/Controllers/{$module}Controller.php");
         $moduleControllerTemplate = $this->getTemplate(
-            "Controller",
+            "controller",
             ["{{MODULE}}","{{NAME}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-            ["{$module}","{$module}","{$namespace}","{$this->date}",$auth]
+            ["{$module}","{$module}","{$module_alias}","{$this->date}",$auth]
         );
         $this->createFile($moduleController,$moduleControllerTemplate);
 
-        // create routes
-        $this->line("");
+        // create web router
+        $this->line("\n______________________________^^_______________________________\n");
         
-        $moduleRoutes = base_path("{$path}/{$module}/routes.php");
+        $moduleRoutes = base_path("{$module_path}/{$module}/web.php");
         $moduleRoutesTemplate = $this->getTemplate(
-                "routes",
+                "web",
                 ["{{MODULE}}","{{NAMESPACE}}","{{PREFIX}}","{{NOW}}","{{AUTH}}"],
-                ["{$module}","{$namespace}",strtolower($module),"{$this->date}",$auth]
+                ["{$module}","{$module_alias}",strtolower($module),"{$this->date}",$auth]
+        );
+        $this->createFile($moduleRoutes,$moduleRoutesTemplate);
+
+        // create api router
+        $this->line("\n______________________________^^_______________________________\n");
+        
+        $moduleRoutes = base_path("{$module_path}/{$module}/api.php");
+        $moduleRoutesTemplate = $this->getTemplate(
+                "api",
+                ["{{MODULE}}","{{NAMESPACE}}","{{PREFIX}}","{{NOW}}","{{AUTH}}"],
+                ["{$module}","{$module_alias}",strtolower($module),"{$this->date}",$auth]
         );
         $this->createFile($moduleRoutes,$moduleRoutesTemplate);
         
-        // create test file
-        // $this->line("");
-        // $index = base_path("{$path}/{$module}/Views/index.blade.php");
-        // $indexTemplate = $this->getTemplate(
-        //     "index",
-        //     ["{{MODULE}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-        //     ["{$module}","{$namespace}","{$this->date}",$auth]
-        // );
-        // $this->createFile($index,$indexTemplate);
-
-        $this->line("Please Add [App\Modules\ModuleServiceProvider::class,] to providers: configs\\app ");
+        $this->line("Default render [App\Modules\ModuleServiceProvider::class,] to : app\\Modules ");
+        $this->line("Please Add [{$module_alias}\ModuleServiceProvider::class,] to providers: configs\\app ");
+        $this->line("You can change path [app\\Modules] to other path, Please add alias to composer autoload psr-4 and run [composer dump-autoload]");
     }
     
 }

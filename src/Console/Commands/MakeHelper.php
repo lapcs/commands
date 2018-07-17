@@ -12,7 +12,7 @@ class MakeHelper extends Ans
      * @author tannq@ans-asia.com
      * @var string
      */
-    protected $signature = 'ans:helper {name} {--namespace=App\Helpers} {--auth=mail@ans-asia.com} {--alias=App\Helpers}';
+    protected $signature = 'ans:helper {name} {--auth=mail@gmail.com}';
 
 
     /**
@@ -20,7 +20,7 @@ class MakeHelper extends Ans
      *
      * @var string
      */
-    protected $description = 'Use: php artisan ans:helper helper_name --auth=auth@mail.com';
+    protected $description = 'Use: php artisan ans:helper helper_name {--auth=mail@gmail.com}';
 
     /**
      * Execute the console command.
@@ -32,21 +32,20 @@ class MakeHelper extends Ans
         $arguments = $this->arguments();
         $name = ucwords($arguments['name']);
         
-        $namespace = $this->option('namespace');
-        $alias = $this->option('alias');
+        $helper_alias = $this->helper_alias;
+        $helper_path = $this->helper_path;
         $auth = $this->option('auth');
 
         $name =  ucwords($name);
-        $namespace =  ucwords($namespace);
-        $alias =  ucwords($alias);
+        $helper_alias =  ucwords($helper_alias);
 
-        $this->createDirectoryIfNotExists("{$alias}",$permissions=null);
+        $this->createDirectoryIfNotExists("{$helper_path}",$permissions=null);
 
-        $helper = base_path("{$alias}/{$name}.php");
+        $helper = base_path("{$helper_path}/{$name}.php");
         $helperTemplate = $this->getTemplate(
-            "Helper",
+            "helper",
             ["{{NAME}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-            ["{$name}","{$namespace}","{$this->date}",$auth]
+            ["{$name}","{$helper_alias}","{$this->date}",$auth]
         );
         $this->createFile($helper,$helperTemplate,false);
     }

@@ -32,18 +32,17 @@ class MakeComponent extends Ans
         $arguments = $this->arguments();
         $name = ucwords($arguments['name']);
         
-        $folder = 'resources\\assets\\js\\'.$this->option('folder');
+        $folder = 'resources\\assets\\js\\components\\'.$this->option('folder');
 
         $auth = $this->option('auth');
 
         $name =  ucwords($name);
-        $folder =  ucwords($folder);
 
         $this->createDirectoryIfNotExists("{$folder}",$permissions=null);
 
         $component = base_path("{$folder}/{$name}.vue");
         $componentTemplate = $this->getTemplate(
-            "Component"
+            "component"
         );
         $this->createFile($component,$componentTemplate,false);
     }

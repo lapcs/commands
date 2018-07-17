@@ -13,7 +13,6 @@ class CommandServiceProvider extends ServiceProvider
         'Lapcs\Commands\Console\Commands\MakeRequest',
         'Lapcs\Commands\Console\Commands\MakeHelper',
         'Lapcs\Commands\Console\Commands\MakeComponent',
-        'Lapcs\Commands\Console\Commands\MakeModel',
         'Lapcs\Commands\Console\Commands\Ans',
     ];
     /**

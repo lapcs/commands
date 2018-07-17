@@ -2,8 +2,6 @@
 namespace Lapcs\Commands\Console\Commands;
 
 use Lapcs\Commands\Console\Commands\Ans;
-use Illuminate\Filesystem\Filesystem;
-use Carbon\Carbon;
 class ModuleGenerate extends Ans
 {
     /**
@@ -11,7 +9,7 @@ class ModuleGenerate extends Ans
      * @author tannq@ans-asia.com
      * @var string
      */
-    protected $signature = 'ans:setup {--auth=mail@ans-asia.com} {--name=App\Modules} {--namespace=App\Modules}';
+    protected $signature = 'ans:setup {--auth=mail@ans-asia.com}';
 
     /**
      * The console command description.
@@ -27,30 +25,26 @@ class ModuleGenerate extends Ans
      */
     public function handle()
     {
-        $name = $this->option('name');
-        $auth = $this->option('auth');
-        $namespace = $this->option('namespace');
-
-        // convert first character to uppercase
-        $module = ucwords($name);
-        $namespace = ucwords($namespace);
+        $auth         = $this->option('auth');
+        $module_alias = $this->module_alias;
+        $dir          =  $this->module_path;
+        $module_alias = ucwords($module_alias);
         sleep(1);
         $this->line('1. Make default directory');
-
-        $this->createDirectoryIfNotExists("{$module}",$permissions=null) ;
+        $this->createDirectoryIfNotExists($dir,$permissions=null) ;
 
         // setup ModuleServiceProvider
         $this->line("");
         sleep(1);
         $this->line("2. Create file ModuleServiceProvider...");
 
-        $moduleServiceProvider = base_path("{$module}/ModuleServiceProvider.php");
+        $moduleServiceProvider = base_path("{$dir}/ModuleServiceProvider.php");
 
-        $this->line("> Copy template to {$module}/ModuleServiceProvider.php...");
+        $this->line("> Copy template to {$dir}/ModuleServiceProvider.php...");
         $moduleServiceProviderTemplate = $this->getTemplate(
                     "ModuleServiceProvider",
                     ["{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-                    ["{$namespace}","{$this->date}",$auth]
+                    ["{$module_alias}","{$this->date}",$auth]
         );
 
         $this->file->put($moduleServiceProvider,$moduleServiceProviderTemplate);

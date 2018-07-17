@@ -11,7 +11,7 @@ class MakeController extends Ans
      *
      * @var string
      */
-    protected $signature = 'ans:controller {module} {name} {--namespace=App\Modules} {--auth=mail@ans-asia.com} {--alias=App\Modules}';
+    protected $signature = 'ans:controller {module} {name} {--auth=mail@ans-asia.com}';
 
     /**
      * The console command description.
@@ -32,33 +32,32 @@ class MakeController extends Ans
         $name = ucwords($arguments['name']);
         
         $name = str_replace(['Controller','controller'], ['',''], $name);
-        $namespace = $this->option('namespace');
-        $alias = $this->option('alias');
+        $module_alias = $this->module_alias;
+        $module_path = $this->module_path;
         $auth = $this->option('auth');
 
         $module =  ucwords($module);
         $name =  ucwords($name);
-        $namespace =  ucwords($namespace);
-        $alias =  ucwords($alias);
+        $module_alias =  ucwords($module_alias);
 
         $viewFolder = strtolower($name);
-        $this->createDirectoryIfNotExists("{$alias}/{$module}",$permissions=null);
-        $this->createDirectoryIfNotExists("{$alias}/{$module}/Views/{$viewFolder}",$permissions=null);
+        $this->createDirectoryIfNotExists("{$module_path}/{$module}",$permissions=null);
+        $this->createDirectoryIfNotExists("{$module_path}/{$module}/Views/{$viewFolder}",$permissions=null);
 
-        $moduleController = base_path("{$alias}/{$module}/Controllers/{$name}Controller.php");
+        $moduleController = base_path("{$module_path}/{$module}/Controllers/{$name}Controller.php");
         $moduleControllerTemplate = $this->getTemplate(
-            "Controller",
+            "controller",
             ["{{MODULE}}","{{NAME}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}","{{NAMEFOLDER}}"],
-            ["{$module}","{$name}","{$namespace}","{$this->date}",$auth,$viewFolder]
+            ["{$module}","{$name}","{$module_alias}","{$this->date}",$auth,$viewFolder]
         );
         $this->createFile($moduleController,$moduleControllerTemplate,false);
 
 
-        $view = base_path("{$alias}/{$module}/Views/{$viewFolder}/index.blade.php");
+        $view = base_path("{$module_path}/{$module}/Views/{$viewFolder}/index.blade.php");
         $viewTemplate = $this->getTemplate(
             "index",
             ["{{MODULE}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}","{{NAMEFOLDER}}"],
-            ["{$module}","{$namespace}","{$this->date}",$auth,$viewFolder]
+            ["{$module}","{$module_alias}","{$this->date}",$auth,$viewFolder]
         );
         $this->createFile($view,$viewTemplate);
     }

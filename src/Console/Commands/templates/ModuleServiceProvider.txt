@@ -1,7 +1,7 @@
 <?php 
 namespace {{NAMESPACE}};
-use Illuminate\Support\Facades\File;;
-use Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
 {
 	/**
@@ -31,12 +31,22 @@ class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
 	private function modules()
 	{
 		$listModule = array_map('basename', File::directories(__DIR__));
+
 		foreach ($listModule as $module) 
 		{
-			if(file_exists(__DIR__.'/'.$module.'/routes.php')) 
+			$namespace = config('lapcs-command.module_alias')."\{$module}\Controllers";
+			//web
+			if(file_exists(__DIR__.'/'.$module.'/web.php')) 
 			{
-				include __DIR__.'/'.$module.'/routes.php';
+				$this->mapWebRoutes($namespace,__DIR__.'/'.$module.'/web.php');
 			}
+
+			//api
+			if(file_exists(__DIR__.'/'.$module.'/api.php')) 
+			{
+				$this->mapApiRoutes($namespace,__DIR__.'/'.$module.'/api.php');
+			}
+
 			if(is_dir(__DIR__.'/'.$module.'/Views'))
 			{
 				$this->loadViewsFrom(__DIR__.'/'.$module.'/Views', $module);
@@ -44,4 +54,32 @@ class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
 		}
 	}
 	
-}
+	/**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes($namespace,$path_to_file)
+    {
+        Route::middleware('web')
+             ->namespace($namespace)
+             ->group($path_to_file);
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes($namespace,$path_to_file)
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($namespace)
+             ->group($path_to_file);
+    }
+}	

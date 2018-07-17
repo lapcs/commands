@@ -8,23 +8,50 @@ use Carbon\Carbon;
 class Ans extends Command
 {
     protected $signature = 'ans:help';
+
     /**
-     * @author tannq@ans-asia.com
-     * @var void
+     * @author file system
+     * @var object
      */
     protected $file;
 
     /**
-     * @author tannq@ans-asia.com
+     * @author time carbon now
      * @var void
      */
     protected $date;
 
     /**
-     * @author tannq@ans-asia.com
+     * @author generate
      * @var MakeModule
      */
     protected $generate;
+
+    /**
+     * @author module alias
+     */
+    protected $module_alias;
+
+    /**
+     * @author path to module
+     */
+    protected $module_path;
+
+    /**
+     * @author path to helper
+     */
+    protected $helper_path;
+
+    /**
+     * @author helper alias
+     */
+    protected $helper_alias;
+
+    /**
+     * @author chmod
+     */
+    protected $permissions = '0644';
+    
     
     /**
      * Create a new command instance.
@@ -36,6 +63,10 @@ class Ans extends Command
         parent::__construct();
         $this->file = $file;
         $this->date = Carbon::now();
+        $this->module_alias = config('lapcs-command.module_alias');
+        $this->module_path = config('lapcs-command.module_path');
+        $this->helper_path = config('lapcs-command.helper_path');
+        $this->helper_alias = config('lapcs-command.helper_alias');
     }
 
     /**
@@ -61,20 +92,17 @@ class Ans extends Command
                 if(!$this->file->exists(base_path().'/'.$path)) 
                 {
                     $this->file->makeDirectory(base_path().'/'.$path,$permissions,true,true);
-                    $this->line("Ok!");
-                } else {
-                    $this->line("Ok!"); 
-                }
+                    
+                } 
+                $this->line("Ok!");
                 $bar->advance();
             }
             $bar->finish();
         } else {
             if(!$this->file->exists(base_path().'/'.$params)) {
                 $this->file->makeDirectory(base_path().'/'.$params,$permissions,true,true);
-                $this->line("Ok!");
-            } else {
-                $this->line("Ok!"); 
             }
+                $this->line("Ok!"); 
         }
         
     }

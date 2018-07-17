@@ -18,7 +18,7 @@ class MakeRequest extends Ans
      *
      * @var string
      */
-    protected $signature = 'ans:request {module} {name} {--namespace=App\Modules} {--auth=mail@ans-asia.com} {--alias=App\Modules}';
+    protected $signature = 'ans:request {module} {name} {--auth=mail@ans-asia.com}';
 
     /**
      * The console command description.
@@ -39,22 +39,20 @@ class MakeRequest extends Ans
         $module = ucwords($arguments['module']);
         $name = ucwords($arguments['name']);
         
-        $namespace = $this->option('namespace');
-        $alias = $this->option('alias');
+        $alias = $this->module_alias;
         $auth = $this->option('auth');
 
         $module =  ucwords($module);
         $name =  ucwords($name);
-        $namespace =  ucwords($namespace);
         $alias =  ucwords($alias);
 
         $this->createDirectoryIfNotExists("{$alias}/{$module}/Requests",$permissions=null);
 
         $moduleRequest = base_path("{$alias}/{$module}/Requests/{$name}.php");
         $moduleRequestTemplate = $this->getTemplate(
-            "Request",
+            "request",
             ["{{MODULE}}","{{NAME}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-            ["{$module}","{$name}","{$namespace}","{$this->date}",$auth]
+            ["{$module}","{$name}","{$alias}","{$this->date}",$auth]
         );
         $this->createFile($moduleRequest,$moduleRequestTemplate,false);
     }

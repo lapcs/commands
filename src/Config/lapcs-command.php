@@ -2,8 +2,9 @@
 
 return  [
 
-	'lapcs-module-service'=>'App\Modules\ModuleServiceProvider',
-
-	'lapcs-module-psr-4'=>'Modules',
+	'helper_path'=>'app\Helpers',
+	'helper_alias'=>'App\Helpers',
+	'module_path'=>'app\Modules',
+	'module_alias'=>'App\Modules',
 
 ];

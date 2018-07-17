@@ -1,18 +1,16 @@
 <?php 
 /**
  * @author : {{AUTH}}  
- * @Website : http://ans-asia.com 
+ * @Website : https://mysticky.net
  * @version : 1.0
  * @Build by tannq@ans-asia.com
  * @description: Framework building use Laravel 
  * @Created at: {{NOW}}
  */
 
-$namespace = '{{NAMESPACE}}\{{MODULE}}\Controllers';
 Route::group(
-	['namespace' => $namespace,'prefix'=>'{{PREFIX}}'],
+	['prefix'=>'{{PREFIX}}'],
 	function() {
-
 		Route::get('','{{MODULE}}Controller@index');
 		Route::post('','{{MODULE}}Controller@index');
 		Route::post('save','{{MODULE}}Controller@save');

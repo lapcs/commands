@@ -22,7 +22,10 @@ class CommandServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // require __DIR__ . '/Routes/web.php';
+        $this->publishes([
+            __DIR__.'/Config/lapcs-command.php' => config_path('lapcs-command.php')
+        ], 'config');
+
     }
 
     /**

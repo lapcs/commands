@@ -20,7 +20,8 @@
         }
     },
     "require": {
-        "php": "^7.0.2"
+        "php": "^7.0.2",
+        "lapcs/commands": "1.3.x-dev"
     },
     "extra": {
         "branch-alias": {

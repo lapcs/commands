@@ -15,7 +15,7 @@ With one big added bonus that the original package didn't have: **tests**.
 To install through Composer, by run the following command:
 
 ``` bash
-composer require lapcs/commands
+composer require lapcs/commands:1.3.x-dev
 ```
 
 ## Lumen config
@@ -65,6 +65,10 @@ composer require lapcs/commands
 ## Command helper
 ``` Create HMVC module
 	php artisan ans:help 
+```
+## Publish config
+``` 
+	php artisan vendor:publish --tag=config
 ```
 
 The package will automatically register a service provider and alias.

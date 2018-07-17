@@ -1,0 +1,20 @@
+<?php 
+/**
+ * @author : {{AUTH}}  
+ * @Website : https://mysticky.net
+ * @version : 1.0
+ * @Build by tannq@ans-asia.com
+ * @description: Framework building use Laravel 
+ * @Created at: {{NOW}}
+ */
+
+Route::group(
+	['prefix'=>'{{PREFIX}}'],
+	function() {
+		Route::get('','{{MODULE}}Controller@index');
+		Route::post('','{{MODULE}}Controller@index');
+		Route::post('save','{{MODULE}}Controller@save');
+		Route::get('edit/{id}','{{MODULE}}Controller@edit');
+		Route::post('edit/{id}','{{MODULE}}Controller@edit');
+	}
+);

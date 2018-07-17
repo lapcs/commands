@@ -1,0 +1,85 @@
+<?php 
+namespace {{NAMESPACE}};
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
+class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
+{
+	/**
+     * Bootstrap any application services.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	public function boot(){
+		$this->modules();
+	}
+
+	/**
+     * Register any application services.
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	public function register(){}
+
+	/**
+     * make module
+     * @author {{AUTH}} 
+     * @created at {{NOW}}
+     * @return void
+     */
+	private function modules()
+	{
+		$listModule = array_map('basename', File::directories(__DIR__));
+
+		foreach ($listModule as $module) 
+		{
+			$namespace = config('lapcs-command.module_alias')."\{$module}\Controllers";
+			//web
+			if(file_exists(__DIR__.'/'.$module.'/web.php')) 
+			{
+				$this->mapWebRoutes($namespace,__DIR__.'/'.$module.'/web.php');
+			}
+
+			//api
+			if(file_exists(__DIR__.'/'.$module.'/api.php')) 
+			{
+				$this->mapApiRoutes($namespace,__DIR__.'/'.$module.'/api.php');
+			}
+
+			if(is_dir(__DIR__.'/'.$module.'/Views'))
+			{
+				$this->loadViewsFrom(__DIR__.'/'.$module.'/Views', $module);
+			}
+		}
+	}
+	
+	/**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes($namespace,$path_to_file)
+    {
+        Route::middleware('web')
+             ->namespace($namespace)
+             ->group($path_to_file);
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes($namespace,$path_to_file)
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($namespace)
+             ->group($path_to_file);
+    }
+}	

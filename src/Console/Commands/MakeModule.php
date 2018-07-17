@@ -63,8 +63,8 @@ class MakeModule extends Ans
         $moduleController = base_path("{$module_path}/{$module}/Controllers/{$module}Controller.php");
         $moduleControllerTemplate = $this->getTemplate(
             "controller",
-            ["{{MODULE}}","{{NAME}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
-            ["{$module}","{$module}","{$module_alias}","{$this->date}",$auth]
+            ["{{MODULE}}","{{NAME}}","{{NAMEFOLDER}}","{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
+            ["{$module}","{$module}",strtolower($module),"{$module_alias}","{$this->date}",$auth]
         );
         $this->createFile($moduleController,$moduleControllerTemplate);
 

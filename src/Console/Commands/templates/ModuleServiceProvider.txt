@@ -34,7 +34,7 @@ class ModuleServiceProvider extends  \Illuminate\Support\ServiceProvider
 
 		foreach ($listModule as $module) 
 		{
-			$namespace = config('lapcs-command.module_alias')."\{$module}\Controllers";
+			$namespace = config('lapcs-command.module_alias')."\\".$module."\Controllers";
 			//web
 			if(file_exists(__DIR__.'/'.$module.'/web.php')) 
 			{

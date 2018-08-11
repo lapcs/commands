@@ -50,7 +50,7 @@ class Ans extends Command
     /**
      * @author chmod
      */
-    protected $permissions = '0644';
+    protected $permissions = 0755;
     
     
     /**
@@ -77,7 +77,7 @@ class Ans extends Command
     public function createDirectoryIfNotExists($params,$permissions=null) 
     {
         // default permission 0644
-        $permissions = $permissions ?? '0644';
+        $permissions = $permissions ?? 0755;
 
         // if @params is array or string
         if(is_array($params)) 
@@ -86,21 +86,14 @@ class Ans extends Command
             $bar->setProgress(-0.8);
             foreach($params as $path)
             {
-                sleep(0.8);
-                $this->line("");
-                $this->line("> Check directory [{$path}] exist ...");
-                if(!$this->file->exists(base_path().'/'.$path)) 
-                {
-                    $this->file->makeDirectory(base_path().'/'.$path,$permissions,true,true);
-                    
-                } 
+                $this->buildPath($path);
                 $this->line("Ok!");
                 $bar->advance();
             }
             $bar->finish();
         } else {
-            if(!$this->file->exists(base_path().'/'.$params)) {
-                $this->file->makeDirectory(base_path().'/'.$params,$permissions,true,true);
+            if(!$this->file->exists(base_path($params))) {
+                $this->buildPath($params);
             }
                 $this->line("Ok!"); 
         }
@@ -126,21 +119,53 @@ class Ans extends Command
      */
     public function createFile($file,$template,$replace=true)
     {
+        $file = str_replace('\\', '/', $file);
         if(!$this->file->exists($file)) 
         {
             $this->line("->Create file [{$file}]...");
             $this->line("Copy template to [{$file}]...");
-            $this->file->put($file,$template);
+            // $this->file->chmod($file,0755);
+            $fp = fopen($file,"wb");
+            fwrite($fp,$template);
+            fclose($fp);
+            $this->file->put($file,$template,false);
             $this->info("Content file apply change.");
         } else {
             if($replace) {
                 if ($this->confirm("->File [{$file}] already exists, replace the file in the destination? [y|N]")) 
                 {
                     $this->line("Copy template to [{$file}]...");
-                    $this->file->put($file,$template);
+                    $this->file->chmod($file, 0755);
+                    $this->file->put($file,$template,false);
                     $this->info("> Content file apply change.");
                 } 
             } 
+        }
+    }
+
+     /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function put($path,$tmp)
+    {
+        $this->file->chmod($path, 0755);
+        $this->file->put($path,$tmp);
+    }
+
+    public function buildPath($path)
+    {
+        $array = [];
+        $str = '';
+        $path = explode('\\', $path);
+        foreach($path as $row) {
+            $row = $str.'/'.$row;
+            if(!$this->file->exists(base_path($row))) 
+            {
+                $this->file->makeDirectory(base_path($row),$this->permissions,true,true);
+            } 
+            $str .= $row;
         }
     }
 
@@ -158,4 +183,6 @@ class Ans extends Command
         $this->line("5. MakeComponent : php artisan ans:component componentName --folder=categories");
         $this->line("Thanks!!");
     }
+
+
 }

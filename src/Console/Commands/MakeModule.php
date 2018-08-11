@@ -35,6 +35,7 @@ class MakeModule extends Ans
     {
         $arguments   = $this->arguments();
         $module_path = $this->module_path;
+        // $module_path = str_replace('\\', '/', $module_path);
         $auth        = $this->option('auth');
         $permissions = $this->permissions;
         $module_alias   = $this->module_alias;
@@ -43,12 +44,13 @@ class MakeModule extends Ans
         $module      = ucwords($arguments['name']);
         // $module_path = ucwords($module_path);
         $module_alias   = ucwords($module_alias);
-        if(!$this->file->exists(base_path($module_path))) 
-        {
-            $this->error("> Error: Directory [{$module_path}] don't exists!");
-            $this->error("Please run: php artisan ans:setup");
-            return ;
-        }
+        // if(!$this->file->exists(base_path(str_replace('\\', '/', $module_path.'/')))); 
+        // {
+        //     $this->error("> Error: Directory [{$module_path}] don't exists!");
+        //     $this->error("Please run: php artisan ans:setup");
+        //     $this->error(base_path(str_replace('\\', '/', $module_path)));
+        //     return ;
+        // }
         $this->line('1. Make default directory');
         $this->createDirectoryIfNotExists([
                     "{$module_path}/{$module}",

@@ -28,10 +28,12 @@ class ModuleGenerate extends Ans
         $auth         = $this->option('auth');
         $module_alias = $this->module_alias;
         $dir          =  $this->module_path;
+        $dir          =  str_replace('\\', '/', $dir);
         $module_alias = ucwords($module_alias);
         sleep(1);
         $this->line('1. Make default directory');
-        $this->createDirectoryIfNotExists($dir,$permissions=null) ;
+        // $dir = explode('\\', $dir); // ['app','Modules']
+        $this->createDirectoryIfNotExists($dir,$permissions=0755) ;
 
         // setup ModuleServiceProvider
         $this->line("");
@@ -46,7 +48,7 @@ class ModuleGenerate extends Ans
                     ["{{NAMESPACE}}","{{NOW}}","{{AUTH}}"],
                     ["{$module_alias}","{$this->date}",$auth]
         );
-
+        // $this->file->chmod($moduleServiceProvider,0755);
         $this->file->put($moduleServiceProvider,$moduleServiceProviderTemplate);
         $this->line("Ok!");
 
